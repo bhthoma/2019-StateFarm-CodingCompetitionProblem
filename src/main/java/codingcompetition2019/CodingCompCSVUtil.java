@@ -1,27 +1,148 @@
 package codingcompetition2019;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CodingCompCSVUtil {
 	public List<List<String>> readCSVFileByCountry(String fileName, String countryName) throws IOException {
-		// TODO implement this method
-		return null;
+		List<List<String>> returnList = new ArrayList<List<String>>();
+		
+        String csvFile = fileName;
+        BufferedReader br = null;
+        String line = "";
+
+        try {
+
+            br = new BufferedReader(new FileReader(csvFile));
+            while ((line = br.readLine()) != null) {
+
+                // use comma as separator
+                String[] data = line.split(",");
+                if(data[0].equals(countryName)) {
+                    System.out.println("Country: " + data[0]);
+                	List<String> arrayList = new ArrayList<String>();
+                	for(String str : data)
+                		arrayList.add(str);
+                	
+                	returnList.add(arrayList);
+                }
+
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+		
+		return returnList;
 	}
 	
 	public List<List<String>> readCSVFileWithHeaders(String fileName) throws IOException {
-		// TODO implement this method
-		return null;
+		List<List<String>> returnList = new ArrayList<List<String>>();
+		
+        String csvFile = fileName;
+        BufferedReader br = null;
+        String line = "";
+
+        try {
+
+            br = new BufferedReader(new FileReader(csvFile));
+            while ((line = br.readLine()) != null) {
+
+                // use comma as separator
+                String[] data = line.split(",");
+    
+            	List<String> arrayList = new ArrayList<String>();
+            	for(String str : data)
+            		arrayList.add(str);
+                	
+                returnList.add(arrayList);
+                }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+		
+		return returnList;
 	}
 	
 	public List<List<String>> readCSVFileWithoutHeaders(String fileName) throws IOException {
-		// TODO implement this method
-		return null;
+		List<List<String>> returnList = new ArrayList<List<String>>();
+		
+        String csvFile = fileName;
+        BufferedReader br = null;
+        String line = "";
+        boolean firstLine = true;
+
+        try {
+
+            br = new BufferedReader(new FileReader(csvFile));
+            while ((line = br.readLine()) != null) {
+
+                // use comma as separator
+                String[] data = line.split(",");
+                if(!firstLine) {
+            	List<String> arrayList = new ArrayList<String>();
+            	for(String str : data)
+            		arrayList.add(str);
+                	
+                returnList.add(arrayList);
+                } else {
+                	firstLine = false;
+                }
+                }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+		
+		return returnList;
 	}
 	
 	public DisasterDescription getMostImpactfulYear(List<List<String>> records) {
-		// TODO implement this method
-		return null;
+		int max = 0;
+		DisasterDescription returnDD = null;
+		for(List<String> list : records) {
+			if(Integer.parseInt(list.get(3)) > max) {
+				max = Integer.parseInt(list.get(3));
+				returnDD = new DisasterDescription(list.get(2),list.get(0),list.get(3));
+			}
+		}
+		
+		return returnDD;
 	}
 
 	public DisasterDescription getMostImpactfulYearByCategory(String category, List<List<String>> records) {
