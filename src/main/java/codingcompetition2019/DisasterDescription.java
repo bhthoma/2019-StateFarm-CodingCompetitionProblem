@@ -4,12 +4,12 @@ public class DisasterDescription {
 	
 	private String year;
 	private String category;
-	private Object incidentsNum;
+	private int incidentsNum;
 	
-	public DisasterDescription(String y, String c, Object i) {
+	public DisasterDescription(String y, String c, int i) {
 		year = y;
 		category = c;
-		incidentsNum = i;
+		incidentsNum =  i;
 	}
 	
 	public String getYear() {
@@ -20,8 +20,7 @@ public class DisasterDescription {
 		return this.category;
 	}
 
-	public Object getReportedIncidentsNum() {
-		// TODO Auto-generated method stub
-		return null;
+	public int getReportedIncidentsNum() {
+		return incidentsNum;
 	}
 }

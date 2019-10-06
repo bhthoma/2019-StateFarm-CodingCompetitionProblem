@@ -138,7 +138,7 @@ public class CodingCompCSVUtil {
 		for(List<String> list : records) {
 			if(Integer.parseInt(list.get(3)) > max) {
 				max = Integer.parseInt(list.get(3));
-				returnDD = new DisasterDescription(list.get(2),list.get(0),list.get(3));
+				returnDD = new DisasterDescription(list.get(2),list.get(0),Integer.parseInt(list.get(3)));
 			}
 		}
 		
@@ -146,18 +146,41 @@ public class CodingCompCSVUtil {
 	}
 
 	public DisasterDescription getMostImpactfulYearByCategory(String category, List<List<String>> records) {
-		// TODO implement this method
-		return null;
+		int max = 0;
+		DisasterDescription returnDD = null;
+		for(List<String> list : records) {
+			if(Integer.parseInt(list.get(3)) > max && category.equals(list.get(0))) {
+				max = Integer.parseInt(list.get(3));
+				returnDD = new DisasterDescription(list.get(2),list.get(0),Integer.parseInt(list.get(3)));
+			}
+		}
+		
+		return returnDD;
 	}
 
 	public DisasterDescription getMostImpactfulDisasterByYear(String year, List<List<String>> records) {
-		// TODO implement this method
-		return null;
+		int max = 0;
+		DisasterDescription returnDD = null;
+		for(List<String> list : records) {
+			if(year.equals(list.get(2)) && Integer.parseInt(list.get(3)) > max && !list.get(0).equals("All natural disasters")) {
+				max = Integer.parseInt(list.get(3));
+				returnDD = new DisasterDescription(list.get(2),list.get(0),Integer.parseInt(list.get(3)));
+			}
+		}
+		
+		return returnDD;
 	}
 
 	public DisasterDescription getTotalReportedIncidentsByCategory(String category, List<List<String>> records) {
-		// TODO implement this method
-		return null;
+		int total = 0;
+		DisasterDescription returnDD = null;
+		for(List<String> list : records) {
+			if(category.equals(list.get(0))) {
+				total += Integer.parseInt(list.get(3));
+			}
+		}
+		returnDD = new DisasterDescription("N/A",category,total);
+		return returnDD;
 	}
 	
 	/**
@@ -168,12 +191,44 @@ public class CodingCompCSVUtil {
 	 *  + If a max value is provided, then a max value is also needed.
 	 */
 	public int countImpactfulYearsWithReportedIncidentsWithinRange(List<List<String>> records, int min, int max) {
-		// TODO implement this method
-		return -1;
+		int total = 0;
+		DisasterDescription returnDD = null;
+		
+		if(max == -1) {
+			for(List<String> list : records) {
+				if(Integer.parseInt(list.get(2)) > min) {
+					total += Integer.parseInt(list.get(3));
+				}
+			}
+		} else 	//no max just a min	
+		if(min == -1) {
+			for(List<String> list : records) {
+				if(Integer.parseInt(list.get(2)) < max) {
+					total += Integer.parseInt(list.get(3));
+				}
+			}
+		} else //no min just max
+		{
+			for(List<String> list : records) {
+				if(Integer.parseInt(list.get(2)) > min && Integer.parseInt(list.get(2)) < max) {
+					total += Integer.parseInt(list.get(3));
+				}
+			}
+		}
+		return total;
 	}
 	
 	public boolean firstRecordsHaveMoreReportedIndicents(List<List<String>> records1, List<List<String>> records2) {
-		// TODO implement this method
-		return false;
+		int total1 = 0;
+		for(List<String> list : records1) {
+				total1 += Integer.parseInt(list.get(3));
+			}
+		
+		int total2 = 0;
+		for(List<String> list : records2) {
+				total2 += Integer.parseInt(list.get(3));
+			}
+
+		return total1 > total2;
 	}
 }
